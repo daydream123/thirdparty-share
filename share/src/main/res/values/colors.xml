@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 用于cell按压色 -->
+    <color name="bg_pressed">#ffededed</color>
+</resources>
