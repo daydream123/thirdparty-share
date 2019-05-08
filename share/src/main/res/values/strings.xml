@@ -9,6 +9,7 @@
     <string name="share_result_completed">分享成功</string>
     <string name="share_result_canceled">分享已取消</string>
     <string name="share_result_failed">分享失败</string>
+    <string name="share_result_auth_denied">登录拒绝</string>
     <string name="share_result_auth_error">验证失败</string>
     <string name="share_result_auth_error_with_code">验证失败，错误码%1$s</string>
 

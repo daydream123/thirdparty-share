@@ -84,7 +84,7 @@ public abstract class ShareTo implements Serializable {
         }
     }
 
-    String getPropertyValue(@NonNull Context context, @NonNull String keyName) {
+    public static String getPropertyValue(@NonNull Context context, @NonNull String keyName) {
         InputStream inputStream = null;
         try {
             Properties properties = new Properties();

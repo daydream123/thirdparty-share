@@ -12,8 +12,6 @@ import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.QQ;
 import com.feizhang.share.shareto.QZone;
 import com.feizhang.share.shareto.ShareTo;
-import com.feizhang.validation.Validator;
-import com.feizhang.validation.annotations.NotBlank;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -26,7 +24,6 @@ import java.io.Serializable;
  */
 
 public class ImageUrl extends ShareContent implements Serializable {
-    @NotBlank
     private final String imageUrl;
     private String title;
     private String summary;
@@ -45,7 +42,7 @@ public class ImageUrl extends ShareContent implements Serializable {
 
     @Override
     public boolean validate(Context context) {
-        return Validator.validate(context, this);
+        return !TextUtils.isEmpty(imageUrl);
     }
 
     @Override

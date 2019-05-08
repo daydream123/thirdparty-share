@@ -4,15 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Telephony;
+import android.text.TextUtils;
+
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.ShareTo;
-import com.feizhang.validation.Validator;
-import com.feizhang.validation.annotations.NotBlank;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 
 public class Text extends ShareContent{
-    @NotBlank
     private final String text;
     private String title;
     private String summary;
@@ -36,7 +35,7 @@ public class Text extends ShareContent{
 
     @Override
     public boolean validate(Context context) {
-        return Validator.validate(context, this);
+        return !TextUtils.isEmpty(text);
     }
 
     @Override

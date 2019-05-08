@@ -2,11 +2,10 @@ package com.feizhang.share.sharecontent;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.ShareTo;
-import com.feizhang.validation.Validator;
-import com.feizhang.validation.annotations.NotBlank;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXVideoFileObject;
 
@@ -17,7 +16,6 @@ import java.io.Serializable;
  */
 
 public class VideoPath extends ShareContent implements Serializable {
-    @NotBlank
     private final String videoPath;
     private String title;
     private String summary;
@@ -41,7 +39,7 @@ public class VideoPath extends ShareContent implements Serializable {
 
     @Override
     public boolean validate(Context context) {
-        return Validator.validate(context, this);
+        return !TextUtils.isEmpty(videoPath);
     }
 
     @Override

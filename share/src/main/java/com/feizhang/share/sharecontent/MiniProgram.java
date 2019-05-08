@@ -1,12 +1,11 @@
 package com.feizhang.share.sharecontent;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.feizhang.share.ShareSupport;
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.ShareTo;
-import com.feizhang.validation.Validator;
-import com.feizhang.validation.annotations.NotBlank;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 
@@ -16,14 +15,8 @@ import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 
 public class MiniProgram extends ShareContent implements ShareSupport {
     private final Thumbnail thumbnail;
-
-    @NotBlank
     private final String webPageUrl;
-
-    @NotBlank
     private final String userName;
-
-    @NotBlank
     private final String path;
     private String title;
     private String summary;
@@ -46,7 +39,10 @@ public class MiniProgram extends ShareContent implements ShareSupport {
 
     @Override
     public boolean validate(Context context) {
-        return Validator.validate(context, this);
+        return thumbnail != null
+                && !TextUtils.isEmpty(webPageUrl)
+                && !TextUtils.isEmpty(userName)
+                && !TextUtils.isEmpty(path);
     }
 
     @Override

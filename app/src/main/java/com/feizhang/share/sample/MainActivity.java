@@ -18,13 +18,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WebUrl webUrl = new WebUrl("https://www.baidu.com", "百度首页");
-                WeChat weChat = new WeChat(webUrl);
-                Share.with(MainActivity.this).share(weChat);
-            }
+        button.setOnClickListener(v -> {
+            WebUrl webUrl = new WebUrl("https://www.baidu.com", "百度首页");
+            WeChat weChat = new WeChat(webUrl);
+            Share.with(MainActivity.this).share(weChat);
         });
     }
 }

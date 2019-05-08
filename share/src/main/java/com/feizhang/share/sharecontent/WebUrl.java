@@ -10,8 +10,6 @@ import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.QQ;
 import com.feizhang.share.shareto.QZone;
 import com.feizhang.share.shareto.ShareTo;
-import com.feizhang.validation.Validator;
-import com.feizhang.validation.annotations.NotBlank;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -24,10 +22,7 @@ import java.util.ArrayList;
  * Created by zhangfei on 2017/10/6.
  */
 public class WebUrl extends ShareContent implements Serializable {
-    @NotBlank
     private final String webUrl;
-
-    @NotBlank
     private final String title;
     private String summary;
     private Thumbnail thumbnail;
@@ -47,7 +42,7 @@ public class WebUrl extends ShareContent implements Serializable {
 
     @Override
     public boolean validate(Context context) {
-        return Validator.validate(context, this);
+        return !TextUtils.isEmpty(title) && !TextUtils.isEmpty(webUrl);
     }
 
     @Override
