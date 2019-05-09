@@ -18,10 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 
-/**
- * Created by zhangfei on 2017/10/6.
- */
-
 public abstract class ShareContent implements ShareSupport, Serializable{
 
     public abstract boolean validate(Context context);

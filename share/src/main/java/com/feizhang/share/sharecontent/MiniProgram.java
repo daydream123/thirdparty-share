@@ -2,16 +2,14 @@ package com.feizhang.share.sharecontent;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.widget.Toast;
 
+import com.feizhang.share.R;
 import com.feizhang.share.ShareSupport;
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.ShareTo;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
-
-/**
- * Created by zhangfei on 2017/12/7.
- */
 
 public class MiniProgram extends ShareContent implements ShareSupport {
     private final Thumbnail thumbnail;
@@ -39,10 +37,27 @@ public class MiniProgram extends ShareContent implements ShareSupport {
 
     @Override
     public boolean validate(Context context) {
-        return thumbnail != null
-                && !TextUtils.isEmpty(webPageUrl)
-                && !TextUtils.isEmpty(userName)
-                && !TextUtils.isEmpty(path);
+        if (thumbnail == null) {
+            Toast.makeText(context, R.string.share_mini_program_no_thumbnail, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(webPageUrl)){
+            Toast.makeText(context, R.string.share_mini_program_no_webPageUrl, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(userName)){
+            Toast.makeText(context, R.string.share_mini_program_no_userName, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(path)){
+            Toast.makeText(context, R.string.share_mini_program_no_path, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     @Override

@@ -41,7 +41,9 @@ public class ImageBytes extends ShareContent implements Serializable {
     public ImageBytes(Context context, @DrawableRes int resId){
         Drawable drawable = ContextCompat.getDrawable(context, resId);
         BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-        this.bytes = Share.toBytes(bitmapDrawable.getBitmap());
+        if (bitmapDrawable != null) {
+            this.bytes = Share.toBytes(bitmapDrawable.getBitmap());
+        }
     }
 
     public ImageBytes(String base64){
@@ -59,7 +61,11 @@ public class ImageBytes extends ShareContent implements Serializable {
 
     @Override
     public boolean validate(Context context) {
-        return bytes != null && bytes.length > 0;
+        if (bytes == null || bytes.length == 0) {
+            Toast.makeText(context, R.string.share_image_no_bytes, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     @Override

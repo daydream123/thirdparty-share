@@ -4,17 +4,13 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import com.feizhang.share.OnShareListener;
 import com.feizhang.share.sharecontent.ShareContent;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Properties;
 
 public abstract class ShareTo implements Serializable {
     protected ShareContent mShareContent;
@@ -44,7 +40,7 @@ public abstract class ShareTo implements Serializable {
 
     public void share(Context context){
         if(mOnShareListener != null){
-            mOnShareListener.onShare(context, this);
+            mOnShareListener.onShareStart(context, this);
         }
 
         mShareContent.share(context, this);
@@ -81,33 +77,6 @@ public abstract class ShareTo implements Serializable {
             return info == null;
         } catch (PackageManager.NameNotFoundException e) {
             return true;
-        }
-    }
-
-    public static String getPropertyValue(@NonNull Context context, @NonNull String keyName) {
-        InputStream inputStream = null;
-        try {
-            Properties properties = new Properties();
-            inputStream = context.getAssets().open("third_party_apps.properties");
-            properties.load(inputStream);
-
-            String appId = properties.getProperty(keyName);
-            if (TextUtils.isEmpty(appId)) {
-                throw new IllegalArgumentException("no value was set for " + keyName);
-            }
-
-            return appId;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("no third_party_apps.properties found in assert");
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }

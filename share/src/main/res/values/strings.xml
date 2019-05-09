@@ -28,4 +28,26 @@
     <string name="share_no_value">缺少%1$s</string>
     
     <string name="share_save_file_failed">图片分享失败，可能未能存储</string>
+
+    <string name="share_audio_no_url">分享音乐缺少链接</string>
+
+    <string name="share_image_no_bytes">分享图片缺少字节数据</string>
+    <string name="share_image_no_path">分享图片缺少文件路径</string>
+    <string name="share_image_no_url">分享图片缺少链接</string>
+
+    <string name="share_mini_program_no_thumbnail">分享小程序缺少图片</string>
+    <string name="share_mini_program_no_webPageUrl">分享小程序缺少兼容网页地址</string>
+    <string name="share_mini_program_no_userName">分享小程序缺少小程序名</string>
+    <string name="share_mini_program_no_path">分享小程序缺少路径</string>
+
+    <string name="share_text_no_text">分享文字缺少文字</string>
+
+    <string name="share_video_no_path">分享视频缺少路径</string>
+    <string name="share_video_no_url">分享视频缺少链接</string>
+
+    <string name="share_url_no_title">分享链接缺少标题</string>
+    <string name="share_url_no_url">分享链接缺少链接</string>
+
+
+
 </resources>

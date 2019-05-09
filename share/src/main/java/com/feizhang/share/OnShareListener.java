@@ -4,7 +4,12 @@ import android.content.Context;
 
 import com.feizhang.share.shareto.ShareTo;
 
-public interface OnShareListener {
+import java.util.Map;
 
-    void onShare(Context context, ShareTo shareTo);
+public abstract class OnShareListener {
+    public void onShareStart(Context context, ShareTo shareTo) {
+    }
+
+    public void onShareResult(int shareFrom, int shareResult, Map<String, String> resultInfo) {
+    }
 }

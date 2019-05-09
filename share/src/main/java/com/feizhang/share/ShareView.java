@@ -69,7 +69,7 @@ public class ShareView extends LinearLayout {
             holder.nameText.setText(shareTo.getShareName());
 
             holder.itemView.setOnClickListener(view -> {
-                mOnShareListener.onShare(view.getContext(), shareTo);
+                mOnShareListener.onShareStart(view.getContext(), shareTo);
                 shareTo.share(view.getContext());
             });
         }

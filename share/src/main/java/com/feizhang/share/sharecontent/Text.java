@@ -5,19 +5,21 @@ import android.content.Intent;
 import android.os.Build;
 import android.provider.Telephony;
 import android.text.TextUtils;
+import android.widget.Toast;
 
+import com.feizhang.share.R;
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.ShareTo;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 
-public class Text extends ShareContent{
+public class Text extends ShareContent {
     private final String text;
     private String title;
     private String summary;
     private Thumbnail thumbnail;
 
-    public Text(String text){
+    public Text(String text) {
         this.text = text;
     }
 
@@ -35,7 +37,12 @@ public class Text extends ShareContent{
 
     @Override
     public boolean validate(Context context) {
-        return !TextUtils.isEmpty(text);
+        if (TextUtils.isEmpty(text)) {
+            Toast.makeText(context, R.string.share_text_no_text, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -71,8 +78,8 @@ public class Text extends ShareContent{
         sendSms(context, text);
     }
 
-    static void sendSms(Context context, String content){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+    static void sendSms(Context context, String content) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             String packageName = Telephony.Sms.getDefaultSmsPackage(context);
             Intent smsIntent = new Intent(Intent.ACTION_SEND);
             smsIntent.setType("text/plain");
@@ -87,7 +94,7 @@ public class Text extends ShareContent{
             Intent smsIntent = new Intent(Intent.ACTION_VIEW);
             smsIntent.setType("vnd.android-dir/mms-sms");
             smsIntent.putExtra("address", content);
-            smsIntent.putExtra("sms_body","body");
+            smsIntent.putExtra("sms_body", "body");
             context.startActivity(smsIntent);
         }
     }

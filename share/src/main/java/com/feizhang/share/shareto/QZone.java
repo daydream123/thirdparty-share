@@ -1,9 +1,11 @@
 package com.feizhang.share.shareto;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.feizhang.share.R;
+import com.feizhang.share.ShareConfig;
 import com.feizhang.share.sharecontent.AudioUrl;
 import com.feizhang.share.sharecontent.ImagePath;
 import com.feizhang.share.sharecontent.ImageUrl;
@@ -11,7 +13,6 @@ import com.feizhang.share.sharecontent.ShareContent;
 import com.feizhang.share.sharecontent.WebUrl;
 
 public class QZone extends ShareTo {
-    public static final String APP_ID = "qq_app_id";
     public static final int ID = 4;
 
     public QZone(ShareContent shareContent) {
@@ -44,7 +45,12 @@ public class QZone extends ShareTo {
 
     @Override
     public String getAppId(Context context) {
-        return getPropertyValue(context, "qq_app_id");
+        String appId = ShareConfig.getQQAppId();
+        if (TextUtils.isEmpty(appId)){
+            throw new IllegalArgumentException("No app id found for QQ, please config in Application with ShareConfig");
+        }
+
+        return appId;
     }
 
     @Override

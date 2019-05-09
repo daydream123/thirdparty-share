@@ -1,9 +1,11 @@
 package com.feizhang.share.shareto;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.feizhang.share.R;
+import com.feizhang.share.ShareConfig;
 import com.feizhang.share.sharecontent.AudioUrl;
 import com.feizhang.share.sharecontent.ImagePath;
 import com.feizhang.share.sharecontent.ImageUrl;
@@ -45,7 +47,12 @@ public class QQ extends ShareTo implements Serializable {
 
     @Override
     public String getAppId(Context context) {
-        return getPropertyValue(context, "qq_app_id");
+        String appId = ShareConfig.getQQAppId();
+        if (TextUtils.isEmpty(appId)){
+            throw new IllegalArgumentException("No app id found for QQ, please config in Application with ShareConfig");
+        }
+
+        return appId;
     }
 
     @Override

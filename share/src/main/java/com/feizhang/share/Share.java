@@ -3,8 +3,13 @@ package com.feizhang.share;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -15,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.feizhang.share.sharecontent.ShareContent;
@@ -30,27 +36,43 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by fhf11991 on 2015/7/7.
- */
 public class Share {
     public static final String TAG = "Share";
-    public static final String SHARE_RESULT_ACTION = "com.chebada.SHARE_RESULT_ACTION";
+    public static final String EXTRA_SHARE_FROM = "shareFrom";
     public static final String EXTRA_SHARE_RESULT = "shareResult";
+    public static final String EXTRA_SHARE_INFO = "shareInfo";
 
     private Context mContext;
     private OnShareListener mOnShareListener;
     private Permissions mPermissions;
 
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (mOnShareListener != null) {
+                String action = intent.getAction();
+                if (TextUtils.equals(action, buildAction(context))) {
+                    int shareFrom = intent.getIntExtra(EXTRA_SHARE_FROM, -1);
+                    int shareResult = intent.getIntExtra(EXTRA_SHARE_RESULT, -1);
+                    Map<String, String> shareInfo = (Map<String, String>) intent.getSerializableExtra(EXTRA_SHARE_INFO);
+                    mOnShareListener.onShareResult(shareFrom, shareResult, shareInfo);
+                }
+            }
+        }
+    };
+
     private Share(FragmentActivity activity) {
         mContext = activity;
         mPermissions = new Permissions(activity);
+        registerReceiver(activity.getApplicationContext(), activity.getLifecycle());
     }
 
     private Share(Fragment fragment){
         mContext = fragment.getActivity();
         mPermissions = new Permissions(fragment);
+        registerReceiver(fragment.getContext(), fragment.getLifecycle());
     }
 
     public static Share with(AppCompatActivity context) {
@@ -59,6 +81,23 @@ public class Share {
 
     public static Share with(Fragment fragment) {
         return new Share(fragment);
+    }
+
+    private void registerReceiver(Context context, Lifecycle lifecycle){
+        lifecycle.addObserver(new LifecycleObserver() {
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+            public void onCreate(){
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(buildAction(context));
+                LocalBroadcastManager.getInstance(context).registerReceiver(mReceiver, filter);
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            public void onDestroy(){
+                LocalBroadcastManager.getInstance(context).unregisterReceiver(mReceiver);
+            }
+        });
     }
 
     public Share setOnShareListener(OnShareListener listener) {
@@ -109,12 +148,15 @@ public class Share {
             bottomSheet.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.transparent));
         }
         ShareView shareView = contentView.findViewById(R.id.share_view);
-        ShareView.ShareAdapter adapter = shareView.setShareContents(Arrays.asList(shareTos), (context1, shareTo) -> {
-            if (mOnShareListener != null) {
-                mOnShareListener.onShare(context1, shareTo);
-            }
+        ShareView.ShareAdapter adapter = shareView.setShareContents(Arrays.asList(shareTos), new OnShareListener() {
+            @Override
+            public void onShareStart(Context context, ShareTo shareTo) {
+                if (mOnShareListener != null) {
+                    mOnShareListener.onShareStart(context, shareTo);
+                }
 
-            dialog.dismiss();
+                dialog.dismiss();
+            }
         });
 
         // cancel button
@@ -124,6 +166,10 @@ public class Share {
         if (adapter.allowShow()) {
             dialog.show();
         }
+    }
+
+    public static String buildAction(Context context){
+        return context.getPackageName() + ".ACTION_SHARE_RESULT";
     }
 
     public static byte[] toByteArray(InputStream input) throws IOException {
@@ -153,12 +199,6 @@ public class Share {
             e.printStackTrace();
         }
         return result;
-    }
-
-    public static void notifyShareResult(Context context, ShareResult shareType) {
-        Intent intent = new Intent(SHARE_RESULT_ACTION);
-        intent.putExtra(EXTRA_SHARE_RESULT, shareType);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     public static byte[] scaleToLimitedSize(byte[] bytes, int maxSize) {

@@ -3,17 +3,15 @@ package com.feizhang.share.sharecontent;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.widget.Toast;
 
+import com.feizhang.share.R;
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.ShareTo;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXVideoFileObject;
 
 import java.io.Serializable;
-
-/**
- * Created by zhangfei on 2017/10/6.
- */
 
 public class VideoPath extends ShareContent implements Serializable {
     private final String videoPath;
@@ -39,7 +37,12 @@ public class VideoPath extends ShareContent implements Serializable {
 
     @Override
     public boolean validate(Context context) {
-        return !TextUtils.isEmpty(videoPath);
+        if(TextUtils.isEmpty(videoPath)){
+            Toast.makeText(context, R.string.share_video_no_path, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     @Override

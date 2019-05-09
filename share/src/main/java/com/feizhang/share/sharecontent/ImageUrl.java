@@ -19,10 +19,6 @@ import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 
 import java.io.Serializable;
 
-/**
- * Created by zhangfei on 2017/10/6.
- */
-
 public class ImageUrl extends ShareContent implements Serializable {
     private final String imageUrl;
     private String title;
@@ -42,7 +38,12 @@ public class ImageUrl extends ShareContent implements Serializable {
 
     @Override
     public boolean validate(Context context) {
-        return !TextUtils.isEmpty(imageUrl);
+        if(TextUtils.isEmpty(imageUrl)){
+            Toast.makeText(context, R.string.share_image_no_url, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     @Override

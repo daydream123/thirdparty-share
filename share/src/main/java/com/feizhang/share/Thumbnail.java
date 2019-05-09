@@ -9,10 +9,6 @@ import android.webkit.URLUtil;
 import java.io.File;
 import java.io.Serializable;
 
-/**
- * Created by zf08526 on 2017/9/30.
- */
-
 public class Thumbnail implements Serializable{
     private ThumbnailType type;
     private String url;
@@ -77,9 +73,6 @@ public class Thumbnail implements Serializable{
         throw new RuntimeException("no thumbnail path found.");
     }
 
-    /**
-     * Created by zf08526 on 2017/9/30.
-     */
     public enum ThumbnailType implements Serializable{
         URL, BYTES, LOCAL_PATH
     }

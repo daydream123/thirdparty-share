@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.feizhang.share.QQShareActivity;
+import com.feizhang.share.R;
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.shareto.QQ;
 import com.feizhang.share.shareto.QZone;
@@ -18,9 +20,6 @@ import com.tencent.mm.opensdk.modelmsg.WXMusicObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Created by zhangfei on 2017/10/6.
- */
 public class AudioUrl extends ShareContent implements Serializable{
     private final String audioUrl;
     private String title;
@@ -45,7 +44,11 @@ public class AudioUrl extends ShareContent implements Serializable{
 
     @Override
     public boolean validate(Context context) {
-        return !TextUtils.isEmpty(audioUrl);
+        if (TextUtils.isEmpty(audioUrl)) {
+            Toast.makeText(context, R.string.share_audio_no_url, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     @Override

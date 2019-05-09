@@ -21,9 +21,6 @@ import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 
 import java.io.Serializable;
 
-/**
- * Created by zhangfei on 2017/10/6.
- */
 public class ImagePath extends ShareContent implements Serializable {
     private final String imagePath;
     private String title;
@@ -43,7 +40,12 @@ public class ImagePath extends ShareContent implements Serializable {
 
     @Override
     public boolean validate(Context context) {
-        return !TextUtils.isEmpty(imagePath);
+        if (TextUtils.isEmpty(imagePath)){
+            Toast.makeText(context, R.string.share_image_no_path, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     @Override
