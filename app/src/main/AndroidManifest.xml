@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".wxapi.WXEntryActivity"/>
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
     </application>
 
 </manifest>

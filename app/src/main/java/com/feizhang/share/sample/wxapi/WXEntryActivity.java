@@ -52,11 +52,16 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     @Override
     public void onResp(BaseResp resp) {
         switch (resp.getType()) {
-            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
+            case ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX:
                 handleShareResult(resp);
                 break;
 
-            case ConstantsAPI.COMMAND_INVOICE_AUTH_INSERT:
+            case ConstantsAPI.COMMAND_SENDAUTH:
+                // wechat login
+                break;
+
+            case ConstantsAPI.COMMAND_PAY_BY_WX:
+                // wechat payment
                 break;
         }
         finish();

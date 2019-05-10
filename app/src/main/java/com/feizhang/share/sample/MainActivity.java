@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.feizhang.share.OnShareListener;
 import com.feizhang.share.Share;
+import com.feizhang.share.sample.R;
 import com.feizhang.share.sharecontent.WebUrl;
 import com.feizhang.share.shareto.QQ;
 import com.feizhang.share.shareto.ShareTo;

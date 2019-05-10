@@ -58,6 +58,7 @@ public class Share {
                     int shareResult = intent.getIntExtra(EXTRA_SHARE_RESULT, -1);
                     Map<String, String> shareInfo = (Map<String, String>) intent.getSerializableExtra(EXTRA_SHARE_INFO);
                     mOnShareListener.onShareResult(shareFrom, shareResult, shareInfo);
+                    LocalBroadcastManager.getInstance(context).unregisterReceiver(this);
                 }
             }
         }
