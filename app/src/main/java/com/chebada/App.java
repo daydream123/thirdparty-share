@@ -1,4 +1,4 @@
-package com.feizhang.share.sample;
+package com.chebada;
 
 import android.app.Application;
 

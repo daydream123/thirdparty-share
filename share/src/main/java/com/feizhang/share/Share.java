@@ -162,7 +162,10 @@ public class Share {
 
         // cancel button
         View cancelBtn = contentView.findViewById(R.id.cancelBtn);
-        cancelBtn.setOnClickListener(v -> dialog.dismiss());
+        cancelBtn.setOnClickListener(v -> {
+            dialog.dismiss();
+            LocalBroadcastManager.getInstance(v.getContext()).unregisterReceiver(mReceiver);
+        });
 
         if (adapter.allowShow()) {
             dialog.show();

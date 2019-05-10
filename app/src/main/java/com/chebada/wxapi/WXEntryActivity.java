@@ -1,4 +1,4 @@
-package com.feizhang.share.sample.wxapi;
+package com.chebada.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,10 +6,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.chebada.R;
 import com.feizhang.share.Share;
 import com.feizhang.share.ShareConfig;
 import com.feizhang.share.ShareResult;
-import com.feizhang.share.sample.R;
 import com.feizhang.share.shareto.WeChat;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
