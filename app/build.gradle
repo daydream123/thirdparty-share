@@ -14,9 +14,9 @@ android {
     signingConfigs {
         release {
             storeFile file('../keystore.jks')
-            storePassword "chebada"
-            keyAlias "chebada"
-            keyPassword "chebada"
+            storePassword "xxx"
+            keyAlias "xxx"
+            keyPassword "xxx"
         }
     }
 
