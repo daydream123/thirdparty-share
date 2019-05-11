@@ -11,9 +11,13 @@ import com.feizhang.share.sharecontent.VideoUrl;
 import com.feizhang.share.sharecontent.WebUrl;
 
 public class Sms extends ShareTo{
+    public static final int ID = 5;
 
     public Sms(ShareContent shareContent) {
         super(shareContent);
+    }
+
+    public Sms(){
     }
 
     @Override
@@ -28,7 +32,7 @@ public class Sms extends ShareTo{
 
     @Override
     public int getSortId() {
-        return 5;
+        return ID;
     }
 
     @Override

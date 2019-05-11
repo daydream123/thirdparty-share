@@ -59,7 +59,7 @@ public class QQShareActivity extends Activity {
 
                 // share result feedback
                 Intent intent = new Intent(Share.buildAction(getApplicationContext()));
-                intent.putExtra(Share.EXTRA_SHARE_FROM, mShareToId);
+                intent.putExtra(Share.EXTRA_SHARE_TO, mShareToId);
                 intent.putExtra(Share.EXTRA_SHARE_RESULT, ShareResult.SUCCESS);
                 intent.putExtra(Share.EXTRA_SHARE_INFO, new HashMap<>());
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
@@ -72,7 +72,7 @@ public class QQShareActivity extends Activity {
 
                 // share result feedback
                 Intent intent = new Intent(Share.buildAction(getApplicationContext()));
-                intent.putExtra(Share.EXTRA_SHARE_FROM, mShareToId);
+                intent.putExtra(Share.EXTRA_SHARE_TO, mShareToId);
                 intent.putExtra(Share.EXTRA_SHARE_RESULT, ShareResult.FAILED);
                 intent.putExtra(Share.EXTRA_SHARE_INFO, new HashMap<>());
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
@@ -85,7 +85,7 @@ public class QQShareActivity extends Activity {
 
                 // share result feedback
                 Intent intent = new Intent(Share.buildAction(getApplicationContext()));
-                intent.putExtra(Share.EXTRA_SHARE_FROM, mShareToId);
+                intent.putExtra(Share.EXTRA_SHARE_TO, mShareToId);
                 intent.putExtra(Share.EXTRA_SHARE_RESULT, ShareResult.CANCELED);
                 intent.putExtra(Share.EXTRA_SHARE_INFO, new HashMap<>());
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);

@@ -21,6 +21,10 @@ public class QQ extends ShareTo implements Serializable {
         super(shareContent);
     }
 
+    public QQ(){
+        super();
+    }
+
     @Override
     public int getShareLogo() {
         return R.drawable.logo_qq;

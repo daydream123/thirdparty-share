@@ -22,6 +22,9 @@ public class Timeline extends ShareTo {
         super(shareContent);
     }
 
+    public Timeline(){
+    }
+
     @Override
     public int getShareLogo() {
         return R.drawable.logo_timeline;

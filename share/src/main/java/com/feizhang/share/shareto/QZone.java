@@ -19,6 +19,9 @@ public class QZone extends ShareTo {
         super(shareContent);
     }
 
+    public QZone(){
+    }
+
     @Override
     public int getShareLogo() {
         return R.drawable.logo_qzone;

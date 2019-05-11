@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import com.feizhang.share.sharecontent.ShareContent;
 import com.feizhang.share.shareto.QQ;
 import com.feizhang.share.shareto.QZone;
@@ -39,8 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Share {
-    public static final String TAG = "Share";
-    public static final String EXTRA_SHARE_FROM = "shareFrom";
+    public static final String EXTRA_SHARE_TO = "shareTo";
     public static final String EXTRA_SHARE_RESULT = "shareResult";
     public static final String EXTRA_SHARE_INFO = "shareInfo";
 
@@ -48,17 +48,27 @@ public class Share {
     private OnShareListener mOnShareListener;
     private Permissions mPermissions;
 
+    @SuppressWarnings("unchecked")
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (mOnShareListener != null) {
                 String action = intent.getAction();
                 if (TextUtils.equals(action, buildAction(context))) {
-                    int shareFrom = intent.getIntExtra(EXTRA_SHARE_FROM, -1);
-                    int shareResult = intent.getIntExtra(EXTRA_SHARE_RESULT, -1);
-                    Map<String, String> shareInfo = (Map<String, String>) intent.getSerializableExtra(EXTRA_SHARE_INFO);
-                    mOnShareListener.onShareResult(shareFrom, shareResult, shareInfo);
                     LocalBroadcastManager.getInstance(context).unregisterReceiver(this);
+
+                    int shareToInt = intent.getIntExtra(EXTRA_SHARE_TO, -1);
+                    ShareTo shareTo = ShareTo.parseFrom(shareToInt);
+                    Map<String, String> shareInfo = (Map<String, String>) intent.getSerializableExtra(EXTRA_SHARE_INFO);
+                    int shareResult = intent.getIntExtra(EXTRA_SHARE_RESULT, -1);
+
+                    if (shareResult == ShareResult.SUCCESS) {
+                        mOnShareListener.onSuccess(shareTo, shareInfo);
+                    } else if (shareResult == ShareResult.FAILED) {
+                        mOnShareListener.onFailed(shareTo);
+                    } else if (shareResult == ShareResult.CANCELED) {
+                        mOnShareListener.onCanceled(shareTo);
+                    }
                 }
             }
         }
@@ -70,7 +80,7 @@ public class Share {
         registerReceiver(activity.getApplicationContext(), activity.getLifecycle());
     }
 
-    private Share(Fragment fragment){
+    private Share(Fragment fragment) {
         mContext = fragment.getActivity();
         mPermissions = new Permissions(fragment);
         registerReceiver(fragment.getContext(), fragment.getLifecycle());
@@ -84,24 +94,24 @@ public class Share {
         return new Share(fragment);
     }
 
-    private void registerReceiver(Context context, Lifecycle lifecycle){
+    private void registerReceiver(Context context, Lifecycle lifecycle) {
         lifecycle.addObserver(new LifecycleObserver() {
 
             @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-            public void onCreate(){
+            public void onCreate() {
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(buildAction(context));
                 LocalBroadcastManager.getInstance(context).registerReceiver(mReceiver, filter);
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-            public void onDestroy(){
+            public void onDestroy() {
                 LocalBroadcastManager.getInstance(context).unregisterReceiver(mReceiver);
             }
         });
     }
 
-    public Share setOnShareListener(OnShareListener listener) {
+    public Share setShareListener(OnShareListener listener) {
         mOnShareListener = listener;
         return this;
     }
@@ -134,7 +144,7 @@ public class Share {
         }, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
-    private void doShare(@NonNull final ShareTo... shareTos){
+    private void doShare(@NonNull final ShareTo... shareTos) {
         if (shareTos.length == 0) {
             return;
         }
@@ -149,16 +159,17 @@ public class Share {
             bottomSheet.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.transparent));
         }
         ShareView shareView = contentView.findViewById(R.id.share_view);
-        ShareView.ShareAdapter adapter = shareView.setShareContents(Arrays.asList(shareTos), new OnShareListener() {
-            @Override
-            public void onShareStart(Context context, ShareTo shareTo) {
-                if (mOnShareListener != null) {
-                    mOnShareListener.onShareStart(context, shareTo);
-                }
+        ShareView.ShareAdapter adapter = shareView.setShareContents(Arrays.asList(shareTos),
+                new OnShareListener() {
+                    @Override
+                    public void onStart(Context context, ShareTo shareTo) {
+                        if (mOnShareListener != null) {
+                            mOnShareListener.onStart(context, shareTo);
+                        }
 
-                dialog.dismiss();
-            }
-        });
+                        dialog.dismiss();
+                    }
+                });
 
         // cancel button
         View cancelBtn = contentView.findViewById(R.id.cancelBtn);
@@ -172,7 +183,7 @@ public class Share {
         }
     }
 
-    public static String buildAction(Context context){
+    public static String buildAction(Context context) {
         return context.getPackageName() + ".ACTION_SHARE_RESULT";
     }
 

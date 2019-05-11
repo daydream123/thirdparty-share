@@ -68,35 +68,35 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     }
 
     private void handleShareResult(BaseResp resp) {
-        int shareFrom, shareResult;
+        int shareTo, shareResult;
         HashMap<String, String> shareInfo = new HashMap<>();
 
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 Toast.makeText(this, R.string.share_result_completed, Toast.LENGTH_SHORT).show();
-                shareFrom = WeChat.ID;
+                shareTo = WeChat.ID;
                 shareResult = ShareResult.SUCCESS;
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 Toast.makeText(this, R.string.share_result_canceled, Toast.LENGTH_SHORT).show();
-                shareFrom = WeChat.ID;
+                shareTo = WeChat.ID;
                 shareResult = ShareResult.CANCELED;
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 Toast.makeText(this, R.string.share_result_auth_denied, Toast.LENGTH_SHORT).show();
-                shareFrom = WeChat.ID;
+                shareTo = WeChat.ID;
                 shareResult = ShareResult.FAILED;
                 break;
             default:
                 Toast.makeText(this, R.string.share_result_failed, Toast.LENGTH_SHORT).show();
-                shareFrom = WeChat.ID;
+                shareTo = WeChat.ID;
                 shareResult = ShareResult.FAILED;
                 break;
         }
 
         // share result feedback
         Intent intent = new Intent(Share.buildAction(this));
-        intent.putExtra(Share.EXTRA_SHARE_FROM, shareFrom);
+        intent.putExtra(Share.EXTRA_SHARE_TO, shareTo);
         intent.putExtra(Share.EXTRA_SHARE_RESULT, shareResult);
         intent.putExtra(Share.EXTRA_SHARE_INFO, shareInfo);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
+
 import com.feizhang.share.OnShareListener;
 import com.feizhang.share.sharecontent.ShareContent;
 
@@ -14,7 +15,6 @@ import java.util.Arrays;
 
 public abstract class ShareTo implements Serializable {
     protected ShareContent mShareContent;
-    private OnShareListener mOnShareListener;
 
     @DrawableRes
     public abstract int getShareLogo();
@@ -30,7 +30,14 @@ public abstract class ShareTo implements Serializable {
 
     public abstract boolean isSupportToShare();
 
-    public ShareTo(ShareContent shareContent){
+    public ShareTo(ShareContent shareContent) {
+        mShareContent = shareContent;
+    }
+
+    public ShareTo() {
+    }
+
+    public void setShareContent(ShareContent shareContent) {
         mShareContent = shareContent;
     }
 
@@ -38,11 +45,7 @@ public abstract class ShareTo implements Serializable {
         return mShareContent;
     }
 
-    public void share(Context context){
-        if(mOnShareListener != null){
-            mOnShareListener.onShareStart(context, this);
-        }
-
+    public void share(Context context) {
         mShareContent.share(context, this);
     }
 
@@ -60,23 +63,43 @@ public abstract class ShareTo implements Serializable {
         return Arrays.hashCode(new Object[]{getShareName()});
     }
 
-    public void setOnShareListener(OnShareListener listener) {
-        mOnShareListener = listener;
-    }
-
     boolean isAppNotInstalled(Context context, String packageName) {
         if (context == null) {
             throw new IllegalArgumentException();
         }
+
         if (TextUtils.isEmpty(packageName)) {
             throw new IllegalArgumentException();
         }
+
         try {
             PackageManager pm = context.getPackageManager();
             PackageInfo info = pm.getPackageInfo(packageName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
             return info == null;
         } catch (PackageManager.NameNotFoundException e) {
             return true;
+        }
+    }
+
+    public static ShareTo parseFrom(int shareTo) {
+        switch (shareTo) {
+            case QQ.ID:
+                return new QQ();
+
+            case QZone.ID:
+                return new QZone();
+
+            case Sms.ID:
+                return new Sms();
+
+            case Timeline.ID:
+                return new Timeline();
+
+            case WeChat.ID:
+                return new WeChat();
+
+            default:
+                throw new IllegalArgumentException("unsupported shareTo: " + shareTo);
         }
     }
 }

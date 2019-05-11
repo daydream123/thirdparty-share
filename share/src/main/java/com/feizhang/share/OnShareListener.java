@@ -7,9 +7,16 @@ import com.feizhang.share.shareto.ShareTo;
 import java.util.Map;
 
 public abstract class OnShareListener {
-    public void onShareStart(Context context, ShareTo shareTo) {
+    public void onStart(Context context, ShareTo shareTo) {
     }
 
-    public void onShareResult(int shareFrom, int shareResult, Map<String, String> resultInfo) {
+    public void onSuccess(ShareTo shareTo, Map<String, String> resultInfo) {
     }
+
+    public void onFailed(ShareTo shareTo) {
+    }
+
+    public void onCanceled(ShareTo shareTo) {
+    }
+
 }

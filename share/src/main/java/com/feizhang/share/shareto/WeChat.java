@@ -25,6 +25,9 @@ public class WeChat extends ShareTo {
         super(shareContent);
     }
 
+    public WeChat(){
+    }
+
     @Override
     public int getShareLogo() {
         return R.drawable.logo_wechat;
