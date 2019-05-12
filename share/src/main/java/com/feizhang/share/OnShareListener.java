@@ -7,7 +7,7 @@ import com.feizhang.share.shareto.ShareTo;
 import java.util.Map;
 
 public abstract class OnShareListener {
-    public void onStart(Context context, ShareTo shareTo) {
+    public void onStart(ShareTo shareTo) {
     }
 
     public void onSuccess(ShareTo shareTo, Map<String, String> resultInfo) {

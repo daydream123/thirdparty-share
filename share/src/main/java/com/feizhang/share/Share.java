@@ -162,9 +162,9 @@ public class Share {
         ShareView.ShareAdapter adapter = shareView.setShareContents(Arrays.asList(shareTos),
                 new OnShareListener() {
                     @Override
-                    public void onStart(Context context, ShareTo shareTo) {
+                    public void onStart(ShareTo shareTo) {
                         if (mOnShareListener != null) {
-                            mOnShareListener.onStart(context, shareTo);
+                            mOnShareListener.onStart(shareTo);
                         }
 
                         dialog.dismiss();

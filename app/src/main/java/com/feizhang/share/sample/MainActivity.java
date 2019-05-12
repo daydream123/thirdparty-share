@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
             Share.with(MainActivity.this).setShareListener(new OnShareListener() {
                 @Override
-                public void onStart(Context context, ShareTo shareTo) {
-                    super.onStart(context, shareTo);
+                public void onStart(ShareTo shareTo) {
+                    super.onStart(shareTo);
                     Log.d(TAG, "onStart");
                 }
 
