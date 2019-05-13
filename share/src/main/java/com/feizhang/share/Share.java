@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -106,6 +107,7 @@ public class Share {
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             public void onDestroy() {
+                Log.d("zhang", "lifecycle destroy 33333");
                 LocalBroadcastManager.getInstance(context).unregisterReceiver(mReceiver);
             }
         });

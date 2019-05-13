@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">thirdpart-share</string>
+    <string name="share_all_button">share All</string>
+    <string name="share_to_someone">share to some one</string>
+    <string name="share_with_different_content">share with different content</string>
+    <string name="show_in_activity">show in activity</string>
+    <string name="show_in_fragment">show in fragment</string>
+    <string name="share_directly">share directly</string>
 </resources>

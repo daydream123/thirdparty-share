@@ -1,17 +1,13 @@
 package com.feizhang.share.sample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
+import android.support.v7.app.AppCompatActivity;
 
-import com.feizhang.share.OnShareListener;
 import com.feizhang.share.Share;
+import com.feizhang.share.sharecontent.ImageUrl;
 import com.feizhang.share.sharecontent.WebUrl;
 import com.feizhang.share.shareto.QQ;
-import com.feizhang.share.shareto.ShareTo;
 import com.feizhang.share.shareto.WeChat;
-
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,33 +16,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(v -> {
+        findViewById(R.id.shareToAllBtn).setOnClickListener(v -> {
             WebUrl webUrl = new WebUrl("https://www.baidu.com", "百度首页");
-            WeChat weChat = new WeChat(webUrl);
-            QQ qq = new QQ(webUrl);
-
-            Share.with(MainActivity.this).setShareListener(new OnShareListener() {
-                @Override
-                public void onStart(ShareTo shareTo) {
-                    super.onStart(shareTo);
-                }
-
-                @Override
-                public void onSuccess(ShareTo shareTo, Map<String, String> resultInfo) {
-                    super.onSuccess(shareTo, resultInfo);
-                }
-
-                @Override
-                public void onFailed(ShareTo shareTo) {
-                    super.onFailed(shareTo);
-                }
-
-                @Override
-                public void onCanceled(ShareTo shareTo) {
-                    super.onCanceled(shareTo);
-                }
-            }).share(weChat, qq);
+            Share.with(MainActivity.this).shareAll(webUrl);
         });
+
+        findViewById(R.id.shareToSomeone).setOnClickListener(v -> {
+            WebUrl webUrl = new WebUrl("https://www.baidu.com", "百度首页");
+            Share.with(MainActivity.this).share(new WeChat(webUrl));
+        });
+
+        findViewById(R.id.shareWithDifferentContent).setOnClickListener(v -> {
+            WeChat weChat = new WeChat(new WebUrl("https://www.baidu.com", "百度首页"));
+            QQ qq = new QQ(new ImageUrl("https://imgazure.microsoftstore.com.cn/_ui/desktop/static/img/surfacepro6/sp6_blue_1180.png"));
+            Share.with(MainActivity.this).share(weChat, qq);
+        });
+
+        findViewById(R.id.shareDirectly).setOnClickListener(v -> {
+            QQ qq = new QQ(new ImageUrl("https://imgazure.microsoftstore.com.cn/_ui/desktop/static/img/surfacepro6/sp6_blue_1180.png"));
+            qq.share(v.getContext());
+        });
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frameLayout, new MainFragment())
+                .commitAllowingStateLoss();
     }
 }
