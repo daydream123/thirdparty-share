@@ -1,14 +1,11 @@
 package com.feizhang.share.sample;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 
 import com.feizhang.share.OnShareListener;
 import com.feizhang.share.Share;
-import com.feizhang.share.sample.R;
 import com.feizhang.share.sharecontent.WebUrl;
 import com.feizhang.share.shareto.QQ;
 import com.feizhang.share.shareto.ShareTo;
@@ -17,7 +14,6 @@ import com.feizhang.share.shareto.WeChat;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
