@@ -56,7 +56,7 @@ public class ImagePath extends ShareContent implements Serializable {
         bundle.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
         bundle.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
         bundle.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, imagePath);
-        QQShareActivity.startActivity(context, bundle, shareTo.getAppId(context), QQ.ID);
+        QQShareActivity.startActivity(context, bundle, QQ.ID);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ImagePath extends ShareContent implements Serializable {
         bundle.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, summary);
         bundle.putString(QzoneShare.SHARE_TO_QQ_APP_NAME, getAppName(context).toString());
         bundle.putString(QzoneShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, imagePath);
-        QQShareActivity.startActivity(context, bundle, shareTo.getAppId(context), QZone.ID);
+        QQShareActivity.startActivity(context, bundle, QZone.ID);
     }
 
     @Override

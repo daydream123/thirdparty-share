@@ -11,22 +11,22 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-//    signingConfigs {
-//        release {
-//            storeFile file('../keystore.jks')
-//            storePassword "xxx"
-//            keyAlias "xxx"
-//            keyPassword "xxx"
-//        }
-//    }
+    signingConfigs {
+        release {
+            storeFile file('../keystore.jks')
+            storePassword "xxx"
+            keyAlias "xxx"
+            keyPassword "xxx"
+        }
+    }
 
     buildTypes {
         debug {
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
 
         release {
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -46,4 +46,5 @@ dependencies {
 
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1'
     implementation project(':share')
+    implementation project(':qq-open-sdk-3.3.3')
 }

@@ -71,7 +71,7 @@ public class WebUrl extends ShareContent implements Serializable {
             }
         }
 
-        QQShareActivity.startActivity(context, bundle, shareTo.getAppId(context), QQ.ID);
+        QQShareActivity.startActivity(context, bundle, QQ.ID);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class WebUrl extends ShareContent implements Serializable {
             bundle.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, list);
         }
 
-        QQShareActivity.startActivity(context, bundle, shareTo.getAppId(context), QZone.ID);
+        QQShareActivity.startActivity(context, bundle, QZone.ID);
     }
 
     @Override

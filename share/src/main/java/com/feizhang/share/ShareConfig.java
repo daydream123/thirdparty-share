@@ -1,5 +1,7 @@
 package com.feizhang.share;
 
+import android.text.TextUtils;
+
 /**
  * Third-Party app id configure, it should be configured in your application.
  */
@@ -20,7 +22,11 @@ public class ShareConfig {
     }
 
     public static String getWeChatAppId(){
-        return getInstance().weChatAppId;
+        String appId = getInstance().weChatAppId;
+        if (TextUtils.isEmpty(appId)){
+            throw new IllegalArgumentException("No app id found for WeChat, please config it in Application with ShareConfig");
+        }
+        return appId;
     }
 
     public static void setWetChatAppId(String appId){
@@ -28,7 +34,12 @@ public class ShareConfig {
     }
 
     public static String getQQAppId(){
-        return getInstance().qqAppId;
+        String appId = getInstance().qqAppId;
+        if (TextUtils.isEmpty(appId)){
+            throw new IllegalArgumentException("No app id found for QQ, please config it in Application with ShareConfig");
+        }
+
+        return appId;
     }
 
     public static void setQQAppId(String appId){

@@ -1,1 +1,1 @@
-include ':app', ':share'
+include ':app', ':share', ':qq-open-sdk-3.3.3'

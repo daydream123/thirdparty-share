@@ -51,12 +51,7 @@ public class Timeline extends ShareTo {
 
     @Override
     public String getAppId(Context context) {
-        String appId = ShareConfig.getQQAppId();
-        if (TextUtils.isEmpty(appId)){
-            throw new IllegalArgumentException("No app id found for WeChat, please config in Application with ShareConfig");
-        }
-
-        return appId;
+        return ShareConfig.getQQAppId();
     }
 
     @Override

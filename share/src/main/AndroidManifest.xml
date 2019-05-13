@@ -1,2 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.feizhang.share" />
+    package="com.feizhang.share">
+
+    <application
+        android:label="@string/app_name">
+
+        <!-- //////////////// qq login start ///////////////// -->
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".QQShareActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- //////////////  qq login end //////////////////// -->
+
+    </application>
+</manifest>

@@ -54,7 +54,7 @@ public class ImageUrl extends ShareContent implements Serializable {
         bundle.putString(QQShare.SHARE_TO_QQ_APP_NAME, getAppName(context).toString());
         bundle.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
         bundle.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
-        QQShareActivity.startActivity(context, bundle, shareTo.getAppId(context), QQ.ID);
+        QQShareActivity.startActivity(context, bundle, QQ.ID);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ImageUrl extends ShareContent implements Serializable {
         bundle.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, summary);
         bundle.putString(QzoneShare.SHARE_TO_QQ_APP_NAME, getAppName(context).toString());
         bundle.putString(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
-        QQShareActivity.startActivity(context, bundle, shareTo.getAppId(context), QZone.ID);
+        QQShareActivity.startActivity(context, bundle, QZone.ID);
     }
 
     @Override

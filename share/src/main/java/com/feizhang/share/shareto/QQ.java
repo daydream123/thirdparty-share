@@ -51,12 +51,7 @@ public class QQ extends ShareTo implements Serializable {
 
     @Override
     public String getAppId(Context context) {
-        String appId = ShareConfig.getQQAppId();
-        if (TextUtils.isEmpty(appId)){
-            throw new IllegalArgumentException("No app id found for QQ, please config in Application with ShareConfig");
-        }
-
-        return appId;
+        return ShareConfig.getQQAppId();
     }
 
     @Override
