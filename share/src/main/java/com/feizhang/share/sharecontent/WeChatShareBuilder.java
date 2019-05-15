@@ -92,7 +92,7 @@ public class WeChatShareBuilder {
     }
 
     @SuppressLint("StaticFieldLeak")
-    static void downloadBytes(final String httpUrl, final OnDownloadListener listener) {
+    public static void downloadBytes(final String httpUrl, final OnDownloadListener listener) {
         new AsyncTask<Void, Void, byte[]>() {
 
             @Override
@@ -119,7 +119,7 @@ public class WeChatShareBuilder {
         }.execute();
     }
 
-    interface OnDownloadListener {
+    public interface OnDownloadListener {
         void onSuccess(byte[] bytes);
 
         void onError();

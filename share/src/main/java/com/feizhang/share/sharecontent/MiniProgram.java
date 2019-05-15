@@ -5,17 +5,14 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.feizhang.share.R;
-import com.feizhang.share.ShareSupport;
 import com.feizhang.share.Thumbnail;
-import com.feizhang.share.shareto.ShareTo;
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 
-public class MiniProgram extends ShareContent implements ShareSupport {
+public class MiniProgram extends ShareContent {
     private final Thumbnail thumbnail;
     private final String webPageUrl;
     private final String userName;
     private final String path;
+    private int programType;
     private String title;
     private String summary;
 
@@ -25,6 +22,38 @@ public class MiniProgram extends ShareContent implements ShareSupport {
         this.userName = userName;
         this.path = path;
         this.thumbnail = thumbnail;
+    }
+
+    public Thumbnail getThumbnail() {
+        return thumbnail;
+    }
+
+    public String getWebPageUrl() {
+        return webPageUrl;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setProgramType(int programType) {
+        this.programType = programType;
+    }
+
+    public int getProgramType() {
+        return programType;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
@@ -58,37 +87,5 @@ public class MiniProgram extends ShareContent implements ShareSupport {
         }
 
         return true;
-    }
-
-    @Override
-    public void qqShare(Context context, ShareTo shareTo) {
-        // not support
-    }
-
-    @Override
-    public void qzoneShare(Context context, ShareTo shareTo) {
-        // not support
-    }
-
-    @Override
-    public void wechatShare(Context context, ShareTo shareTo) {
-        WXMiniProgramObject object = new WXMiniProgramObject();
-        object.webpageUrl = webPageUrl;
-        object.userName = userName;
-        object.path = path;
-        WeChatShareBuilder.buildAndSent(context,
-                shareTo.getAppId(context),
-                SendMessageToWX.Req.WXSceneSession,
-                object, title, summary, thumbnail);
-    }
-
-    @Override
-    public void timelineShare(Context context, ShareTo shareTo) {
-        // not support
-    }
-
-    @Override
-    public void smsShare(Context context, ShareTo shareTo) {
-        // not support
     }
 }

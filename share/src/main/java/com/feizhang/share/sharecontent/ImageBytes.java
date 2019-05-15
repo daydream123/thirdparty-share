@@ -6,17 +6,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.widget.Toast;
 
 import com.feizhang.share.R;
 import com.feizhang.share.Share;
-import com.feizhang.share.Thumbnail;
-import com.feizhang.share.shareto.ShareTo;
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXImageObject;
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 
 import java.io.Serializable;
 
@@ -31,6 +25,18 @@ public class ImageBytes extends ShareContent implements Serializable {
 
     public ImageBytes(Bitmap bitmap){
         this.bytes = Share.toBytes(bitmap);
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSummary() {
+        return summary;
     }
 
     public ImageBytes(Drawable drawable){
@@ -66,54 +72,5 @@ public class ImageBytes extends ShareContent implements Serializable {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void qqShare(Context context, ShareTo shareTo) {
-        // not support
-    }
-
-    @Override
-    public void qzoneShare(Context context, ShareTo shareTo) {
-        // not support
-    }
-
-    @Override
-    public void wechatShare(Context context, ShareTo shareTo) {
-        String filePath = saveAsFile(context, bytes);
-        if (TextUtils.isEmpty(filePath)){
-            Toast.makeText(context, R.string.share_save_file_failed, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        WXImageObject object = new WXImageObject();
-        object.setImagePath(filePath);
-        WeChatShareBuilder.buildAndSent(context,
-                shareTo.getAppId(context),
-                SendMessageToWX.Req.WXSceneSession,
-                object, title, summary,
-                new Thumbnail(Share.scaleToLimitedSize(bytes, WXMediaMessage.THUMB_LENGTH_LIMIT)));
-    }
-
-    @Override
-    public void timelineShare(Context context, ShareTo shareTo) {
-        String filePath = saveAsFile(context, bytes);
-        if (TextUtils.isEmpty(filePath)){
-            Toast.makeText(context, R.string.share_save_file_failed, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        WXImageObject object = new WXImageObject();
-        object.setImagePath(filePath);
-        WeChatShareBuilder.buildAndSent(context,
-                shareTo.getAppId(context),
-                SendMessageToWX.Req.WXSceneTimeline,
-                object, title, summary,
-                new Thumbnail(Share.scaleToLimitedSize(bytes, WXMediaMessage.THUMB_LENGTH_LIMIT)));
-    }
-
-    @Override
-    public void smsShare(Context context, ShareTo shareTo) {
-        // not support
     }
 }

@@ -1,6 +1,9 @@
 package com.feizhang.share.shareto;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.provider.Telephony;
 
 import com.feizhang.share.R;
 import com.feizhang.share.sharecontent.AudioUrl;
@@ -53,5 +56,45 @@ public class Sms extends ShareTo{
                 || mShareContent instanceof Text
                 || mShareContent instanceof VideoUrl
                 || mShareContent instanceof WebUrl;
+    }
+
+    @Override
+    public void share(Context context) {
+        if (!mShareContent.validate(context)) {
+            return;
+        }
+
+        if (mShareContent instanceof AudioUrl){
+            sendSms(context, ((AudioUrl) mShareContent).getAudioUrl());
+        } else if (mShareContent instanceof ImageUrl){
+            sendSms(context, ((ImageUrl) mShareContent).getImageUrl());
+        } else if (mShareContent instanceof Text){
+            sendSms(context, ((Text) mShareContent).getText());
+        } else if (mShareContent instanceof VideoUrl){
+            sendSms(context, ((VideoUrl) mShareContent).getVideoUrl());
+        } else if (mShareContent instanceof WebUrl){
+            sendSms(context, ((WebUrl) mShareContent).getWebUrl());
+        }
+    }
+
+    private void sendSms(Context context, String content) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            String packageName = Telephony.Sms.getDefaultSmsPackage(context);
+            Intent smsIntent = new Intent(Intent.ACTION_SEND);
+            smsIntent.setType("text/plain");
+            smsIntent.putExtra(Intent.EXTRA_TEXT, content);
+
+            //if no default app is configured, then choose any app that support this intent.
+            if (packageName != null) {
+                smsIntent.setPackage(packageName);
+            }
+            context.startActivity(smsIntent);
+        } else {
+            Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+            smsIntent.setType("vnd.android-dir/mms-sms");
+            smsIntent.putExtra("address", content);
+            smsIntent.putExtra("sms_body", "body");
+            context.startActivity(smsIntent);
+        }
     }
 }

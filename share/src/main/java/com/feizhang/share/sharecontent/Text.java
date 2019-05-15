@@ -9,9 +9,6 @@ import android.widget.Toast;
 
 import com.feizhang.share.R;
 import com.feizhang.share.Thumbnail;
-import com.feizhang.share.shareto.ShareTo;
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 
 public class Text extends ShareContent {
     private final String text;
@@ -35,6 +32,22 @@ public class Text extends ShareContent {
         this.thumbnail = thumbnail;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public Thumbnail getThumbnail() {
+        return thumbnail;
+    }
+
     @Override
     public boolean validate(Context context) {
         if (TextUtils.isEmpty(text)) {
@@ -43,39 +56,6 @@ public class Text extends ShareContent {
         }
 
         return true;
-    }
-
-    @Override
-    public void qqShare(Context context, ShareTo shareTo) {
-        // not support
-    }
-
-    @Override
-    public void qzoneShare(Context context, ShareTo shareTo) {
-        // not support
-    }
-
-    @Override
-    public void wechatShare(Context context, ShareTo shareTo) {
-        WeChatShareBuilder.buildAndSent(context,
-                shareTo.getAppId(context),
-                SendMessageToWX.Req.WXSceneSession,
-                new WXTextObject(text),
-                title, summary, thumbnail);
-    }
-
-    @Override
-    public void timelineShare(Context context, ShareTo shareTo) {
-        WeChatShareBuilder.buildAndSent(context,
-                shareTo.getAppId(context),
-                SendMessageToWX.Req.WXSceneTimeline,
-                new WXTextObject(text),
-                title, summary, thumbnail);
-    }
-
-    @Override
-    public void smsShare(Context context, ShareTo shareTo) {
-        sendSms(context, text);
     }
 
     static void sendSms(Context context, String content) {
