@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Telephony;
+import android.widget.Toast;
 
 import com.feizhang.share.R;
 import com.feizhang.share.sharecontent.AudioUrl;
@@ -20,7 +21,7 @@ public class Sms extends ShareTo{
         super(shareContent);
     }
 
-    public Sms(){
+    Sms(){
     }
 
     @Override
@@ -39,14 +40,12 @@ public class Sms extends ShareTo{
     }
 
     @Override
-    public boolean installed(Context context) {
-        return true;
-    }
-
-    @Override
-    public String getAppId(Context context) {
-        // no app id for sms
-        return null;
+    public String getPackageName(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return Telephony.Sms.getDefaultSmsPackage(context);
+        } else {
+            return "com.android.mms";
+        }
     }
 
     @Override
@@ -60,6 +59,11 @@ public class Sms extends ShareTo{
 
     @Override
     public void share(Context context) {
+        if (!isInstalled(context)) {
+            Toast.makeText(context, R.string.share_mms_not_installed_warning, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (!mShareContent.validate(context)) {
             return;
         }

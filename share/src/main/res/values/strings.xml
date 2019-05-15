@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">share</string>
 
-    <string name="share_we_chat_not_installed_warning">微信分享，请先安装微信客户端</string>
+    <string name="share_we_chat_not_installed_warning">微信分享，请确保你的设备安装了微信App</string>
     <string name="share_timeline_not_supported">当前微信版本过低，不能发送微信朋友圈</string>
-    <string name="share_qq_not_installed_warning">QQ分享，请先安装QQ客户端</string>
-    <string name="sina_blog_not_installed_warning">新浪微博分享，请先安装新浪微博客户端</string>
+    <string name="share_qq_not_installed_warning">QQ分享，请确保你的设备安装了QQ App</string>
+    <string name="share_mms_not_installed_warning">短信分享，请确保你的设备安装了短信App</string>
 
     <string name="share_result_completed">分享成功</string>
     <string name="share_result_canceled">分享已取消</string>

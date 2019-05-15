@@ -36,7 +36,7 @@ public class Timeline extends ShareTo {
         super(shareContent);
     }
 
-    public Timeline(){
+    Timeline(){
     }
 
     @Override
@@ -55,17 +55,8 @@ public class Timeline extends ShareTo {
     }
 
     @Override
-    public boolean installed(Context context) {
-        if (isAppNotInstalled(context, "com.tencent.mm")) {
-            Toast.makeText(context, R.string.share_we_chat_not_installed_warning, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String getAppId(Context context) {
-        return ShareConfig.getQQAppId();
+    public String getPackageName(Context context) {
+        return "com.tencent.mm";
     }
 
     @Override
@@ -82,6 +73,11 @@ public class Timeline extends ShareTo {
 
     @Override
     public void share(Context context) {
+        if (!isInstalled(context)) {
+            Toast.makeText(context, R.string.share_we_chat_not_installed_warning, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (!mShareContent.validate(context)) {
             return;
         }

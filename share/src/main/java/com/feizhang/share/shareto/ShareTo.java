@@ -29,9 +29,7 @@ public abstract class ShareTo implements Serializable {
 
     public abstract int getSortId();
 
-    public abstract boolean installed(Context context);
-
-    public abstract String getAppId(Context context);
+    public abstract String getPackageName(Context context);
 
     public abstract boolean isSupportToShare();
 
@@ -41,15 +39,7 @@ public abstract class ShareTo implements Serializable {
         mShareContent = shareContent;
     }
 
-    public ShareTo() {
-    }
-
-    public void setShareContent(ShareContent shareContent) {
-        mShareContent = shareContent;
-    }
-
-    public ShareContent getShareContent() {
-        return mShareContent;
+    ShareTo() {
     }
 
     @Override
@@ -76,18 +66,18 @@ public abstract class ShareTo implements Serializable {
         }
     }
 
-    boolean isAppNotInstalled(Context context, String packageName) {
+    boolean isInstalled(Context context){
         if (context == null) {
             throw new IllegalArgumentException();
         }
 
-        if (TextUtils.isEmpty(packageName)) {
+        if (TextUtils.isEmpty(getPackageName(context))) {
             throw new IllegalArgumentException();
         }
 
         try {
             PackageManager pm = context.getPackageManager();
-            PackageInfo info = pm.getPackageInfo(packageName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+            PackageInfo info = pm.getPackageInfo(getPackageName(context), PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
             return info == null;
         } catch (PackageManager.NameNotFoundException e) {
             return true;

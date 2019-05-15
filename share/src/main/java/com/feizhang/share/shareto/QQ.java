@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.feizhang.share.QQShareActivity;
 import com.feizhang.share.R;
-import com.feizhang.share.ShareConfig;
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.sharecontent.AudioUrl;
 import com.feizhang.share.sharecontent.ImagePath;
@@ -25,7 +24,7 @@ public class QQ extends ShareTo implements Serializable {
         super(shareContent);
     }
 
-    public QQ(){
+    QQ(){
         super();
     }
 
@@ -45,17 +44,8 @@ public class QQ extends ShareTo implements Serializable {
     }
 
     @Override
-    public boolean installed(Context context) {
-        if (isAppNotInstalled(context, "com.tencent.mobileqq")) {
-            Toast.makeText(context, R.string.share_qq_not_installed_warning, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String getAppId(Context context) {
-        return ShareConfig.getQQAppId();
+    public String getPackageName(Context context) {
+        return "com.tencent.mobileqq";
     }
 
     @Override
@@ -68,6 +58,11 @@ public class QQ extends ShareTo implements Serializable {
 
     @Override
     public void share(Context context) {
+        if (!isInstalled(context)) {
+            Toast.makeText(context, R.string.share_qq_not_installed_warning, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (!mShareContent.validate(context)) {
             return;
         }
