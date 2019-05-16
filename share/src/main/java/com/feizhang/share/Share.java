@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.feizhang.share.sharecontent.ShareContent;
+import com.feizhang.share.shareto.ShareTos;
 import com.feizhang.share.shareto.QQ;
 import com.feizhang.share.shareto.QZone;
 import com.feizhang.share.shareto.ShareTo;
@@ -59,7 +60,7 @@ public class Share {
                     LocalBroadcastManager.getInstance(context).unregisterReceiver(this);
 
                     int shareToInt = intent.getIntExtra(EXTRA_SHARE_TO, -1);
-                    ShareTo shareTo = ShareTo.parseFrom(shareToInt);
+                    ShareTo shareTo = ShareTos.parseFrom(shareToInt);
                     Map<String, String> shareInfo = (Map<String, String>) intent.getSerializableExtra(EXTRA_SHARE_INFO);
                     int shareResult = intent.getIntExtra(EXTRA_SHARE_RESULT, -1);
 

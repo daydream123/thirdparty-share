@@ -39,7 +39,16 @@ public abstract class ShareTo implements Serializable {
         mShareContent = shareContent;
     }
 
+    /**
+     * Empty share content.
+     */
     ShareTo() {
+        mShareContent = new ShareContent() {
+            @Override
+            public boolean validate(Context context) {
+                return false;
+            }
+        };
     }
 
     @Override
@@ -143,28 +152,6 @@ public abstract class ShareTo implements Serializable {
                     e.printStackTrace();
                 }
             }
-        }
-    }
-
-    public static ShareTo parseFrom(int shareTo) {
-        switch (shareTo) {
-            case QQ.ID:
-                return new QQ();
-
-            case QZone.ID:
-                return new QZone();
-
-            case Sms.ID:
-                return new Sms();
-
-            case Timeline.ID:
-                return new Timeline();
-
-            case WeChat.ID:
-                return new WeChat();
-
-            default:
-                throw new IllegalArgumentException("unsupported shareTo: " + shareTo);
         }
     }
 }
