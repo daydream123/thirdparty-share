@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public abstract class ShareTo implements Serializable {
-    protected ShareContent mShareContent;
+    ShareContent mShareContent;
 
     @DrawableRes
     public abstract int getShareLogo();
