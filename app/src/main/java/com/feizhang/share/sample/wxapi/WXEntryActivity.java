@@ -10,7 +10,7 @@ import com.feizhang.share.Share;
 import com.feizhang.share.ShareConfig;
 import com.feizhang.share.ShareResult;
 import com.feizhang.share.sample.R;
-import com.feizhang.share.shareto.WeChat;
+import com.feizhang.share.shareto.wechat.WeChat;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;

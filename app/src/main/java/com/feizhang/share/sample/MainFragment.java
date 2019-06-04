@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import com.feizhang.share.Share;
 import com.feizhang.share.sharecontent.ImageUrl;
 import com.feizhang.share.sharecontent.WebUrl;
-import com.feizhang.share.shareto.QQ;
-import com.feizhang.share.shareto.WeChat;
+import com.feizhang.share.shareto.qq.QQ;
+import com.feizhang.share.shareto.wechat.WeChat;
 
 public class MainFragment extends Fragment {
 

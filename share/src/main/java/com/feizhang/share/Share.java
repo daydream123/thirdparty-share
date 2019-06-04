@@ -27,11 +27,13 @@ import android.view.View;
 
 import com.feizhang.share.sharecontent.ShareContent;
 import com.feizhang.share.shareto.ShareTos;
-import com.feizhang.share.shareto.QQ;
-import com.feizhang.share.shareto.QZone;
+import com.feizhang.share.shareto.facebook.Facebook;
+import com.feizhang.share.shareto.line.Line;
+import com.feizhang.share.shareto.qq.QQ;
+import com.feizhang.share.shareto.qq.QZone;
 import com.feizhang.share.shareto.ShareTo;
-import com.feizhang.share.shareto.Timeline;
-import com.feizhang.share.shareto.WeChat;
+import com.feizhang.share.shareto.wechat.Timeline;
+import com.feizhang.share.shareto.wechat.WeChat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -124,7 +126,9 @@ public class Share {
         Timeline timeline = new Timeline(shareContent);
         QQ qq = new QQ(shareContent);
         QZone qZone = new QZone(shareContent);
-        share(weChat, timeline, qq, qZone);
+        Line line = new Line(shareContent);
+        Facebook facebook = new Facebook(shareContent);
+        share(weChat, timeline, qq, qZone, line, facebook);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

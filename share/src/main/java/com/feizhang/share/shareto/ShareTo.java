@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public abstract class ShareTo implements Serializable {
-    ShareContent mShareContent;
+    protected ShareContent mShareContent;
 
     @DrawableRes
     public abstract int getShareLogo();
@@ -42,7 +42,7 @@ public abstract class ShareTo implements Serializable {
     /**
      * Empty share content.
      */
-    ShareTo() {
+    public ShareTo() {
         mShareContent = new ShareContent() {
             @Override
             public boolean validate(Context context) {
@@ -65,7 +65,7 @@ public abstract class ShareTo implements Serializable {
         return Arrays.hashCode(new Object[]{getShareName()});
     }
 
-    CharSequence getAppName(Context context) {
+    protected CharSequence getAppName(Context context) {
         try {
             PackageManager packageManager = context.getApplicationContext().getPackageManager();
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
@@ -75,7 +75,7 @@ public abstract class ShareTo implements Serializable {
         }
     }
 
-    boolean isInstalled(Context context){
+    protected boolean isInstalled(Context context){
         if (context == null) {
             throw new IllegalArgumentException();
         }
@@ -87,14 +87,14 @@ public abstract class ShareTo implements Serializable {
         try {
             PackageManager pm = context.getPackageManager();
             PackageInfo info = pm.getPackageInfo(getPackageName(context), PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
-            return info == null;
+            return info != null;
         } catch (PackageManager.NameNotFoundException e) {
-            return true;
+            return false;
         }
     }
 
     @Nullable
-    String saveAsFile(Context context, byte[] bytes) {
+    protected String saveAsFile(Context context, byte[] bytes) {
         File storeFile = new File(context.getExternalCacheDir() + File.separator + "temp_wx_share.png");
         if (!storeFile.getParentFile().exists()) {
             boolean created = storeFile.getParentFile().mkdir();
@@ -125,7 +125,7 @@ public abstract class ShareTo implements Serializable {
     }
 
     @Nullable
-    String saveAsFile(Context context, Bitmap bitmap) {
+    protected String saveAsFile(Context context, Bitmap bitmap) {
         File storeFile = new File(context.getExternalCacheDir() + File.separator + "temp_share.png");
         if (!storeFile.getParentFile().exists()) {
             boolean created = storeFile.getParentFile().mkdir();

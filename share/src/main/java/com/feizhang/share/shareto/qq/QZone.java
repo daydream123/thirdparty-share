@@ -1,10 +1,9 @@
-package com.feizhang.share.shareto;
+package com.feizhang.share.shareto.qq;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.feizhang.share.QQShareActivity;
 import com.feizhang.share.R;
 import com.feizhang.share.Thumbnail;
 import com.feizhang.share.sharecontent.AudioUrl;
@@ -12,6 +11,7 @@ import com.feizhang.share.sharecontent.ImagePath;
 import com.feizhang.share.sharecontent.ImageUrl;
 import com.feizhang.share.sharecontent.ShareContent;
 import com.feizhang.share.sharecontent.WebUrl;
+import com.feizhang.share.shareto.ShareTo;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 
@@ -24,7 +24,8 @@ public class QZone extends ShareTo {
         super(shareContent);
     }
 
-    QZone(){
+    public QZone(){
+        super();
     }
 
     @Override

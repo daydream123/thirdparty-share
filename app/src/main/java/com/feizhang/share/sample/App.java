@@ -9,7 +9,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ShareConfig.setWetChatAppId("wx3909318230292e7d");
-        ShareConfig.setQQAppId("1104718080");
+        ShareConfig.setWeChatAppId("wx111111111");
+        ShareConfig.setQQAppId("222222222");
+        ShareConfig.setLineAppId("33333333");
+        ShareConfig.setFacebookAppId("444444444");
     }
 }

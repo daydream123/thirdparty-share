@@ -1,4 +1,4 @@
-package com.feizhang.share.shareto;
+package com.feizhang.share.shareto.sms;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,15 +13,16 @@ import com.feizhang.share.sharecontent.ShareContent;
 import com.feizhang.share.sharecontent.Text;
 import com.feizhang.share.sharecontent.VideoUrl;
 import com.feizhang.share.sharecontent.WebUrl;
+import com.feizhang.share.shareto.ShareTo;
 
-public class Sms extends ShareTo{
+public class Sms extends ShareTo {
     public static final int ID = 5;
 
     public Sms(ShareContent shareContent) {
         super(shareContent);
     }
 
-    Sms(){
+    public Sms(){
     }
 
     @Override

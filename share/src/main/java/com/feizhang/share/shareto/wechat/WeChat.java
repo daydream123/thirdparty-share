@@ -1,4 +1,4 @@
-package com.feizhang.share.shareto;
+package com.feizhang.share.shareto.wechat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,39 +14,43 @@ import com.feizhang.share.sharecontent.AudioUrl;
 import com.feizhang.share.sharecontent.ImageBytes;
 import com.feizhang.share.sharecontent.ImagePath;
 import com.feizhang.share.sharecontent.ImageUrl;
+import com.feizhang.share.sharecontent.MiniProgram;
 import com.feizhang.share.sharecontent.ShareContent;
 import com.feizhang.share.sharecontent.Text;
 import com.feizhang.share.sharecontent.VideoPath;
 import com.feizhang.share.sharecontent.VideoUrl;
 import com.feizhang.share.sharecontent.WeChatShareBuilder;
 import com.feizhang.share.sharecontent.WebUrl;
+import com.feizhang.share.shareto.ShareTo;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.tencent.mm.opensdk.modelmsg.WXMusicObject;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.modelmsg.WXVideoFileObject;
 import com.tencent.mm.opensdk.modelmsg.WXVideoObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 
-public class Timeline extends ShareTo {
-    public static final int ID = 2;
+public class WeChat extends ShareTo {
+    public static final int ID = 1;
 
-    public Timeline(ShareContent shareContent) {
+    public WeChat(ShareContent shareContent) {
         super(shareContent);
     }
 
-    Timeline(){
+    public WeChat(){
+        super();
     }
 
     @Override
     public int getShareLogo() {
-        return R.drawable.logo_timeline;
+        return R.drawable.logo_wechat;
     }
 
     @Override
     public int getShareName() {
-        return R.string.share_timeline;
+        return R.string.share_wechat;
     }
 
     @Override
@@ -65,6 +69,7 @@ public class Timeline extends ShareTo {
                 || mShareContent instanceof ImageBytes
                 || mShareContent instanceof ImagePath
                 || mShareContent instanceof ImageUrl
+                || mShareContent instanceof MiniProgram
                 || mShareContent instanceof Text
                 || mShareContent instanceof VideoPath
                 || mShareContent instanceof VideoUrl
@@ -89,7 +94,7 @@ public class Timeline extends ShareTo {
             object.musicUrl = audioUrl.getAudioUrl();
             WeChatShareBuilder.buildAndSent(context,
                     appId,
-                    SendMessageToWX.Req.WXSceneTimeline,
+                    SendMessageToWX.Req.WXSceneSession,
                     object,
                     audioUrl.getTitle(),
                     audioUrl.getSummary(),
@@ -97,7 +102,7 @@ public class Timeline extends ShareTo {
             return;
         }
 
-        if (mShareContent instanceof ImageBytes){
+        if (mShareContent instanceof ImageBytes) {
             ImageBytes imageBytes = (ImageBytes) mShareContent;
             String filePath = saveAsFile(context, imageBytes.getBytes());
             if (TextUtils.isEmpty(filePath)){
@@ -109,14 +114,17 @@ public class Timeline extends ShareTo {
             object.setImagePath(filePath);
             WeChatShareBuilder.buildAndSent(context,
                     appId,
-                    SendMessageToWX.Req.WXSceneTimeline,
-                    object, imageBytes.getTitle(), imageBytes.getSummary(),
-                    new Thumbnail(Share.scaleToLimitedSize(imageBytes.getBytes(),
+                    SendMessageToWX.Req.WXSceneSession,
+                    object,
+                    imageBytes.getTitle(),
+                    imageBytes.getSummary(),
+                    new Thumbnail(
+                            Share.scaleToLimitedSize(imageBytes.getBytes(),
                             WXMediaMessage.THUMB_LENGTH_LIMIT)));
             return;
         }
 
-        if (mShareContent instanceof ImagePath){
+        if (mShareContent instanceof ImagePath) {
             ImagePath imagePath = (ImagePath) mShareContent;
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath.getImagePath());
             String filePath = saveAsFile(context, bitmap);
@@ -129,14 +137,15 @@ public class Timeline extends ShareTo {
             object.setImagePath(filePath);
             WeChatShareBuilder.buildAndSent(context,
                     appId,
-                    SendMessageToWX.Req.WXSceneTimeline,
-                    object, imagePath.getTitle(), imagePath.getSummary(),
-                    new Thumbnail(Thumbnail.ThumbnailType.LOCAL_PATH,
-                            imagePath.getImagePath()));
+                    SendMessageToWX.Req.WXSceneSession,
+                    object,
+                    imagePath.getTitle(),
+                    imagePath.getSummary(),
+                    new Thumbnail(Thumbnail.ThumbnailType.LOCAL_PATH, imagePath.getImagePath()));
             return;
         }
 
-        if (mShareContent instanceof ImageUrl){
+        if (mShareContent instanceof ImageUrl) {
             ImageUrl imageUrl = (ImageUrl) mShareContent;
             WeChatShareBuilder.downloadBytes(imageUrl.getImageUrl(), new WeChatShareBuilder.OnDownloadListener() {
                 @Override
@@ -151,7 +160,7 @@ public class Timeline extends ShareTo {
                     object.setImagePath(filePath);
                     WeChatShareBuilder.buildAndSent(context,
                             appId,
-                            SendMessageToWX.Req.WXSceneTimeline,
+                            SendMessageToWX.Req.WXSceneSession,
                             object, imageUrl.getTitle(), imageUrl.getSummary(),
                             new Thumbnail(Thumbnail.ThumbnailType.URL, imageUrl.getImageUrl()));
                 }
@@ -164,38 +173,58 @@ public class Timeline extends ShareTo {
             return;
         }
 
+        if (mShareContent instanceof MiniProgram){
+            MiniProgram miniProgram = (MiniProgram) mShareContent;
+            WXMiniProgramObject object = new WXMiniProgramObject();
+            object.webpageUrl = miniProgram.getWebPageUrl();
+            object.userName = miniProgram.getUserName();
+            object.path = miniProgram.getPath();
+            object.miniprogramType = miniProgram.getProgramType();
+            WeChatShareBuilder.buildAndSent(context,
+                    appId,
+                    SendMessageToWX.Req.WXSceneSession,
+                    object,
+                    miniProgram.getTitle(),
+                    miniProgram.getSummary(),
+                    miniProgram.getThumbnail());
+            return;
+        }
+
         if (mShareContent instanceof Text){
             Text text = (Text) mShareContent;
             WeChatShareBuilder.buildAndSent(context,
                     appId,
-                    SendMessageToWX.Req.WXSceneTimeline,
+                    SendMessageToWX.Req.WXSceneSession,
                     new WXTextObject(text.getText()),
-                    text.getTitle(), text.getSummary(),
+                    text.getTitle(),
+                    text.getSummary(),
                     text.getThumbnail());
             return;
         }
 
-        if (mShareContent instanceof VideoPath){
+        if (mShareContent instanceof VideoPath) {
             VideoPath videoPath = (VideoPath) mShareContent;
             WXVideoFileObject object = new WXVideoFileObject();
             object.filePath = videoPath.getVideoPath();
             WeChatShareBuilder.buildAndSent(context,
                     appId,
-                    SendMessageToWX.Req.WXSceneTimeline,
+                    SendMessageToWX.Req.WXSceneSession,
                     object, videoPath.getTitle(),
                     videoPath.getSummary(),
                     videoPath.getThumbnail());
             return;
         }
 
-        if (mShareContent instanceof VideoUrl) {
+        if (mShareContent instanceof VideoUrl){
             VideoUrl videoUrl = (VideoUrl) mShareContent;
             WXVideoObject object = new WXVideoObject();
             object.videoUrl = videoUrl.getVideoUrl();
             WeChatShareBuilder.buildAndSent(context,
                     appId,
-                    SendMessageToWX.Req.WXSceneTimeline,
-                    object, videoUrl.getTitle(), videoUrl.getSummary(),
+                    SendMessageToWX.Req.WXSceneSession,
+                    object,
+                    videoUrl.getTitle(),
+                    videoUrl.getSummary(),
                     videoUrl.getThumbnail());
             return;
         }
@@ -205,8 +234,11 @@ public class Timeline extends ShareTo {
             WXWebpageObject object = new WXWebpageObject(webUrl.getWebUrl());
             WeChatShareBuilder.buildAndSent(context,
                     appId,
-                    SendMessageToWX.Req.WXSceneTimeline,
-                    object, webUrl.getTitle(), webUrl.getSummary(), webUrl.getThumbnail());
+                    SendMessageToWX.Req.WXSceneSession,
+                    object,
+                    webUrl.getTitle(),
+                    webUrl.getSummary(),
+                    webUrl.getThumbnail());
         }
     }
 }
